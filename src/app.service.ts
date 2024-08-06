@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { promises as fs } from 'fs';
 import * as path from 'path';
 import { RssParserService } from './common/rss-parser/rss-parser.service';
@@ -6,7 +6,10 @@ import { RssConfigType } from './common/types';
 
 @Injectable()
 export class AppService {
-  constructor(private rssParserService: RssParserService) {}
+  constructor(
+    private rssParserService: RssParserService,
+    private readonly logger: Logger,
+  ) {}
   getHello(): string {
     return 'Hello World!';
   }
@@ -18,6 +21,7 @@ export class AppService {
   }
 
   async main() {
+    this.logger.debug('AppService.main()');
     const rssConfig = await this.getRssConfig();
 
     for (const configItem of rssConfig) {
