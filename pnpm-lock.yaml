@@ -10,16 +10,16 @@ importers:
     dependencies:
       '@langchain/community':
         specifier: ^0.2.24
-        version: 0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8))
+        version: 0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8))
       '@langchain/core':
         specifier: ^0.2.10
-        version: 0.2.21(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8))
+        version: 0.2.21(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8))
       '@langchain/openai':
         specifier: ^0.1.3
-        version: 0.1.3(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))
+        version: 0.1.3(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))
       '@langchain/textsplitters':
         specifier: ^0.0.3
-        version: 0.0.3(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8))
+        version: 0.0.3(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8))
       '@nestjs/axios':
         specifier: ^3.0.2
         version: 3.0.2(@nestjs/common@10.3.10(reflect-metadata@0.1.14)(rxjs@7.8.1))(axios@1.7.2)(rxjs@7.8.1)
@@ -35,12 +35,21 @@ importers:
       axios:
         specifier: ^1.7.2
         version: 1.7.2
+      html-to-text:
+        specifier: ^9.0.5
+        version: 9.0.5
       iconv-lite:
         specifier: ^0.6.3
         version: 0.6.3
       langchain:
         specifier: ^0.2.13
-        version: 0.2.13(@langchain/community@0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8))
+        version: 0.2.13(@langchain/community@0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8))
+      output_parsers:
+        specifier: link:@langchain/core/output_parsers
+        version: link:@langchain/core/output_parsers
+      prompts:
+        specifier: link:@langchain/core/prompts
+        version: link:@langchain/core/prompts
       reflect-metadata:
         specifier: ^0.1.13
         version: 0.1.14
@@ -945,6 +954,9 @@ packages:
     resolution: {integrity: sha512-cq8o4cWH0ibXh9VGi5P20Tu9XF/0fFXl9EUinr9QfTM7a7p0oTA4iJRCQWppXR1Pg8dSM0UCItCkPwsk9qWWYA==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
+  '@selderee/plugin-htmlparser2@0.11.0':
+    resolution: {integrity: sha512-P33hHGdldxGabLFjPPpaTxVolMrzrcegejx+0GxjrIb9Zv48D8yAIA/QTDR2dFl7Uz7urX8aX6+5bCZslr+gWQ==}
+
   '@sinclair/typebox@0.27.8':
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
 
@@ -1656,6 +1668,19 @@ packages:
     resolution: {integrity: sha512-yS+Q5i3hBf7GBkd4KG8a7eBNNWNGLTaEwwYWUijIYM7zrlYDM0BFXHjjPWlWZ1Rg7UaddZeIDmi9jF3HmqiQ2w==}
     engines: {node: '>=6.0.0'}
 
+  dom-serializer@2.0.0:
+    resolution: {integrity: sha512-wIkAryiqt/nV5EQKqQpo3SToSOV9J0DnbJqwK7Wv/Trc92zIAYZ4FlMu+JPFW1DfGFt81ZTCGgDEabffXeLyJg==}
+
+  domelementtype@2.3.0:
+    resolution: {integrity: sha512-OLETBj6w0OsagBwdXnPdN0cnMfF9opN69co+7ZrbfPGrdpPVNBUj02spi6B1N7wChLQiPn4CSH/zJvXw56gmHw==}
+
+  domhandler@5.0.3:
+    resolution: {integrity: sha512-cgwlv/1iFQiFnU96XXgROh8xTeetsnJiDsTc7TYCLFd9+/WNkIqPTxiM/8pSd8VIrhXGTf1Ny1q1hquVqDJB5w==}
+    engines: {node: '>= 4'}
+
+  domutils@3.1.0:
+    resolution: {integrity: sha512-H78uMmQtI2AhgDJjWeQmHwJJ2bLPD3GMmO7Zja/ZZh84wkm+4ut+IUnUdRa8uCGX88DiVx1j6FRe1XfxEgjEZA==}
+
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
 
@@ -1690,6 +1715,10 @@ packages:
   enhanced-resolve@5.17.0:
     resolution: {integrity: sha512-dwDPwZL0dmye8Txp2gzFmA6sxALaSvdRDjPH0viLcKrtlOL3tw62nWWweVD1SdILDTJrbrL6tdWVN58Wo6U3eA==}
     engines: {node: '>=10.13.0'}
+
+  entities@4.5.0:
+    resolution: {integrity: sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==}
+    engines: {node: '>=0.12'}
 
   error-ex@1.3.2:
     resolution: {integrity: sha512-7dFHNmqeFSEt2ZBsCriorKnn3Z2pj+fd9kmI6QoWw4//DL+icEBfc0U7qJCisqrTsKTjw4fNFy2pW9OqStD84g==}
@@ -2054,6 +2083,13 @@ packages:
 
   html-escaper@2.0.2:
     resolution: {integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==}
+
+  html-to-text@9.0.5:
+    resolution: {integrity: sha512-qY60FjREgVZL03vJU6IfMV4GDjGBIoOyvuFdpBDIX9yTlDw0TjxVBQp+P8NvpdIXNJvfWBTNul7fsAQJq2FNpg==}
+    engines: {node: '>=14'}
+
+  htmlparser2@8.0.2:
+    resolution: {integrity: sha512-GYdjWKDkbRLkZ5geuHs5NY1puJ+PXwP7+fHPRz06Eirsb9ugf6d8kkXav6ADhcODhFFPMIXyxkxSuMf3D6NCFA==}
 
   http-errors@2.0.0:
     resolution: {integrity: sha512-FtwrG/euBzaEjYeRqOgly7G0qviiXoJWnvEH2Z1plBdXgbyjv34pHTSb9zoeHMyDy33+DWy5Wt9Wo+TURtOYSQ==}
@@ -2597,6 +2633,9 @@ packages:
       openai:
         optional: true
 
+  leac@0.6.0:
+    resolution: {integrity: sha512-y+SqErxb8h7nE/fiEX07jsbuhrpO9lL8eca7/Y1nuWV2moNlXhyd59iDGcRf6moVyDMbmTNzL40SUyrFU/yDpg==}
+
   leven@3.1.0:
     resolution: {integrity: sha512-qsda+H8jTaUaN/x5vzW2rzc+8Rw4TAQ/4KjB46IwK5VH+IlVeeeje/EoZRpiXvIqjFgK84QffqPztGI3VBLG1A==}
     engines: {node: '>=6'}
@@ -2898,6 +2937,9 @@ packages:
     resolution: {integrity: sha512-ayCKvm/phCGxOkYRSCM82iDwct8/EonSEgCSxWxD7ve6jHggsFl4fZVQBPRNgQoKiuV/odhFrGzQXZwbifC8Rg==}
     engines: {node: '>=8'}
 
+  parseley@0.12.1:
+    resolution: {integrity: sha512-e6qHKe3a9HWr0oMRVDTRhKce+bRO8VGQR3NyVwcjwrbhMmFCX9KszEV35+rn4AdilFAq9VPxP/Fe1wC9Qjd2lw==}
+
   parseurl@1.3.3:
     resolution: {integrity: sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==}
     engines: {node: '>= 0.8'}
@@ -2930,6 +2972,9 @@ packages:
   path-type@4.0.0:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
     engines: {node: '>=8'}
+
+  peberminta@0.9.0:
+    resolution: {integrity: sha512-XIxfHpEuSJbITd1H3EeQwpcZbTLHc+VVr8ANI9t5sit565tsI4/xK3KWTUFE2e6QiangUkh3B0jihzmGnNrRsQ==}
 
   picocolors@1.0.1:
     resolution: {integrity: sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==}
@@ -3113,6 +3158,9 @@ packages:
   schema-utils@3.3.0:
     resolution: {integrity: sha512-pN/yOAvcC+5rQ5nERGuwrjLlYvLTbCibnZ1I7B1LaiAz9BRBlE9GMgE/eqV30P7aJQUf7Ddimy/RsbYO/GrVGg==}
     engines: {node: '>= 10.13.0'}
+
+  selderee@0.11.0:
+    resolution: {integrity: sha512-5TF+l7p4+OsnP8BCCvSyZiSPc4x4//p5uPwK8TCnVPJYRmU2aYKMpOXvw8zM5a5JvuuCGN1jmsMwuU2W02ukfA==}
 
   semver@6.3.1:
     resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
@@ -4122,20 +4170,21 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@langchain/community@0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8))':
+  '@langchain/community@0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8))':
     dependencies:
-      '@langchain/core': 0.2.21(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8))
-      '@langchain/openai': 0.1.3(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))
+      '@langchain/core': 0.2.21(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8))
+      '@langchain/openai': 0.1.3(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))
       binary-extensions: 2.3.0
       expr-eval: 2.0.2
       flat: 5.0.2
       js-yaml: 4.1.0
-      langchain: 0.2.13(@langchain/community@0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8))
-      langsmith: 0.1.41(@langchain/core@0.2.21(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8)))(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8))
+      langchain: 0.2.13(@langchain/community@0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8))
+      langsmith: 0.1.41(@langchain/core@0.2.21(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8)))(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8))
       uuid: 10.0.0
       zod: 3.23.8
       zod-to-json-schema: 3.23.2(zod@3.23.8)
     optionalDependencies:
+      html-to-text: 9.0.5
       ignore: 5.3.1
       lodash: 4.17.21
     transitivePeerDependencies:
@@ -4156,13 +4205,13 @@ snapshots:
       - peggy
       - pyodide
 
-  '@langchain/core@0.2.21(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8))':
+  '@langchain/core@0.2.21(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8))':
     dependencies:
       ansi-styles: 5.2.0
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.12
-      langsmith: 0.1.41(@langchain/core@0.2.21(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8)))(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8))
+      langsmith: 0.1.41(@langchain/core@0.2.21(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8)))(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8))
       mustache: 4.2.0
       p-queue: 6.6.2
       p-retry: 4.6.2
@@ -4173,9 +4222,9 @@ snapshots:
       - langchain
       - openai
 
-  '@langchain/openai@0.1.3(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))':
+  '@langchain/openai@0.1.3(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))':
     dependencies:
-      '@langchain/core': 0.2.21(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8))
+      '@langchain/core': 0.2.21(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8))
       js-tiktoken: 1.0.12
       openai: 4.55.0(zod@3.23.8)
       zod: 3.23.8
@@ -4184,9 +4233,9 @@ snapshots:
       - encoding
       - langchain
 
-  '@langchain/textsplitters@0.0.3(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8))':
+  '@langchain/textsplitters@0.0.3(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8))':
     dependencies:
-      '@langchain/core': 0.2.21(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8))
+      '@langchain/core': 0.2.21(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8))
       js-tiktoken: 1.0.12
     transitivePeerDependencies:
       - langchain
@@ -4320,6 +4369,11 @@ snapshots:
     optional: true
 
   '@pkgr/core@0.1.1': {}
+
+  '@selderee/plugin-htmlparser2@0.11.0':
+    dependencies:
+      domhandler: 5.0.3
+      selderee: 0.11.0
 
   '@sinclair/typebox@0.27.8': {}
 
@@ -5115,6 +5169,24 @@ snapshots:
     dependencies:
       esutils: 2.0.3
 
+  dom-serializer@2.0.0:
+    dependencies:
+      domelementtype: 2.3.0
+      domhandler: 5.0.3
+      entities: 4.5.0
+
+  domelementtype@2.3.0: {}
+
+  domhandler@5.0.3:
+    dependencies:
+      domelementtype: 2.3.0
+
+  domutils@3.1.0:
+    dependencies:
+      dom-serializer: 2.0.0
+      domelementtype: 2.3.0
+      domhandler: 5.0.3
+
   eastasianwidth@0.2.0: {}
 
   ee-first@1.1.1: {}
@@ -5139,6 +5211,8 @@ snapshots:
     dependencies:
       graceful-fs: 4.2.11
       tapable: 2.2.1
+
+  entities@4.5.0: {}
 
   error-ex@1.3.2:
     dependencies:
@@ -5560,6 +5634,21 @@ snapshots:
   hexoid@1.0.0: {}
 
   html-escaper@2.0.2: {}
+
+  html-to-text@9.0.5:
+    dependencies:
+      '@selderee/plugin-htmlparser2': 0.11.0
+      deepmerge: 4.3.1
+      dom-serializer: 2.0.0
+      htmlparser2: 8.0.2
+      selderee: 0.11.0
+
+  htmlparser2@8.0.2:
+    dependencies:
+      domelementtype: 2.3.0
+      domhandler: 5.0.3
+      domutils: 3.1.0
+      entities: 4.5.0
 
   http-errors@2.0.0:
     dependencies:
@@ -6100,16 +6189,16 @@ snapshots:
 
   kuler@2.0.0: {}
 
-  langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)):
+  langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)):
     dependencies:
-      '@langchain/core': 0.2.21(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8))
-      '@langchain/openai': 0.1.3(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))
-      '@langchain/textsplitters': 0.0.3(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8))
+      '@langchain/core': 0.2.21(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8))
+      '@langchain/openai': 0.1.3(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))
+      '@langchain/textsplitters': 0.0.3(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8))
       binary-extensions: 2.3.0
       js-tiktoken: 1.0.12
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
-      langsmith: 0.1.41(@langchain/core@0.2.21(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8)))(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8))
+      langsmith: 0.1.41(@langchain/core@0.2.21(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8)))(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8))
       openapi-types: 12.1.3
       p-retry: 4.6.2
       uuid: 10.0.0
@@ -6117,14 +6206,15 @@ snapshots:
       zod: 3.23.8
       zod-to-json-schema: 3.23.2(zod@3.23.8)
     optionalDependencies:
-      '@langchain/community': 0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8))
+      '@langchain/community': 0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8))
       axios: 1.7.2
+      html-to-text: 9.0.5
       ignore: 5.3.1
     transitivePeerDependencies:
       - encoding
       - openai
 
-  langsmith@0.1.41(@langchain/core@0.2.21(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8)))(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8)):
+  langsmith@0.1.41(@langchain/core@0.2.21(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8)))(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8)):
     dependencies:
       '@types/uuid': 9.0.8
       commander: 10.0.1
@@ -6133,9 +6223,11 @@ snapshots:
       semver: 7.6.3
       uuid: 9.0.1
     optionalDependencies:
-      '@langchain/core': 0.2.21(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8))
-      langchain: 0.2.13(@langchain/community@0.2.24(axios@1.7.2)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8))
+      '@langchain/core': 0.2.21(langchain@0.2.13(@langchain/community@0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8)))(openai@4.55.0(zod@3.23.8))
+      langchain: 0.2.13(@langchain/community@0.2.24(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(lodash@4.17.21)(openai@4.55.0(zod@3.23.8)))(axios@1.7.2)(html-to-text@9.0.5)(ignore@5.3.1)(openai@4.55.0(zod@3.23.8))
       openai: 4.55.0(zod@3.23.8)
+
+  leac@0.6.0: {}
 
   leven@3.1.0: {}
 
@@ -6411,6 +6503,11 @@ snapshots:
       json-parse-even-better-errors: 2.3.1
       lines-and-columns: 1.2.4
 
+  parseley@0.12.1:
+    dependencies:
+      leac: 0.6.0
+      peberminta: 0.9.0
+
   parseurl@1.3.3: {}
 
   path-exists@4.0.0: {}
@@ -6431,6 +6528,8 @@ snapshots:
   path-to-regexp@3.2.0: {}
 
   path-type@4.0.0: {}
+
+  peberminta@0.9.0: {}
 
   picocolors@1.0.1: {}
 
@@ -6587,6 +6686,10 @@ snapshots:
       '@types/json-schema': 7.0.15
       ajv: 6.12.6
       ajv-keywords: 3.5.2(ajv@6.12.6)
+
+  selderee@0.11.0:
+    dependencies:
+      parseley: 0.12.1
 
   semver@6.3.1: {}
 
