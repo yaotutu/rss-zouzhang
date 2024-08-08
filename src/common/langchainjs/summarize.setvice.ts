@@ -5,15 +5,18 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class SummarizeService {
+  private model: Ollama;
+  constructor() {
+    this.model = new Ollama({
+      baseUrl: 'http://localhost:11434',
+      model: 'qwen2',
+    });
+  }
   async summarize(
     content: string,
     output_language: string = '简体中文',
   ): Promise<string> {
-    const model = new Ollama({
-      baseUrl: 'http://localhost:11434',
-      model: 'qwen2',
-    });
-
+    const model = this.model;
     const maxLength = 1000;
     const finalContent = content.slice(0, maxLength); // 限制输入长度
     const prompt = ChatPromptTemplate.fromMessages([
