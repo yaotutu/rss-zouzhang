@@ -1,6 +1,7 @@
 import { HttpModule } from '@nestjs/axios';
 import { Logger, Module } from '@nestjs/common';
 import { HttpClientService } from './http-client/http-client.service';
+import { SummarizeService } from './langchainjs/summarize.setvice';
 import { RssParserService } from './rss-parser/rss-parser.service';
 import { WinstonLoggerService } from './winston/winston-logger.service';
 
@@ -10,11 +11,12 @@ import { WinstonLoggerService } from './winston/winston-logger.service';
     RssParserService,
     HttpClientService,
     WinstonLoggerService,
+    SummarizeService,
     {
       provide: Logger,
       useExisting: WinstonLoggerService,
     },
   ],
-  exports: [RssParserService, HttpClientService, Logger],
+  exports: [RssParserService, HttpClientService, Logger, SummarizeService],
 })
 export class CommonModule {}
