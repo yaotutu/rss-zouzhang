@@ -6,7 +6,6 @@ import * as DailyRotateFile from 'winston-daily-rotate-file';
 @Injectable()
 export class WinstonLoggerService implements LoggerService {
   private readonly logger: winston.Logger;
-
   constructor() {
     this.logger = winston.createLogger({
       level: 'debug', // 最低记录级别为 debug，以确保所有级别的日志都被处理
@@ -14,9 +13,9 @@ export class WinstonLoggerService implements LoggerService {
         winston.format.timestamp({
           format: 'YYYY/MM/DD HH:mm:ss',
         }),
-        winston.format.printf(({ timestamp, level, message }) => {
+        winston.format.printf(({ timestamp, level, message, source }) => {
           const pid = process.pid; // 获取进程ID
-          return `[User] ${pid} - ${timestamp} ${level.toUpperCase()} ${message}`;
+          return `[Winston] ${pid} - ${timestamp}   ${level.toUpperCase()} [${source}] ${message}`;
         }),
       ),
       transports: [
@@ -35,23 +34,23 @@ export class WinstonLoggerService implements LoggerService {
     });
   }
 
-  log(message: string) {
-    this.logger.info(message);
+  log(message: string, source: string) {
+    this.logger.info({ message, source });
   }
 
-  error(message: string, trace: string) {
-    this.logger.error(`${message} - ${trace}`);
+  error(message: string, trace: string, source: string) {
+    this.logger.error({ message: `${message} - ${trace}`, source });
   }
 
-  warn(message: string) {
-    this.logger.warn(message);
+  warn(message: string, source: string) {
+    this.logger.warn({ message, source });
   }
 
-  debug(message: string) {
-    this.logger.debug(message);
+  debug(message: string, source: string) {
+    this.logger.debug({ message, source });
   }
 
-  verbose(message: string) {
-    this.logger.verbose(message);
+  verbose(message: string, source: string) {
+    this.logger.verbose({ message, source });
   }
 }
