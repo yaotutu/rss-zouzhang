@@ -2,7 +2,7 @@
   {
     "sourceUrl": "https://www.appinn.com/feed/",
     "customName": "appinn",
-    "updateInterval": 1,
+    "updateInterval": 3,
     "_updateInterval": "多久更新一次,天为单位",
     "tagName": "content:encoded",
     "_tagName": "文章内容的标签,也就是需要处理的内容标签,根据不同的rss网站略有区别,可以通过浏览器查看源码找到"
