@@ -25,14 +25,10 @@ export class AppService {
     return JSON.parse(rawData) as RssConfigType[];
   }
 
-  getItemsInPeriod(items: any[], updateInterval: number = 7) {
+  getItemsInPeriod(items: any[], updateInterval: number) {
     return items.filter((item) => {
-      console.log('item', item);
       const { pubDate } = item;
-      return this.dateTimeService.isDateInCurrentPeriod(
-        pubDate,
-        updateInterval,
-      );
+      return this.dateTimeService.checkDateInPeriod(pubDate, updateInterval);
     });
   }
 
@@ -43,7 +39,7 @@ export class AppService {
       const { sourceUrl, tagName, updateInterval } = configItem;
       const { items } = await this.rssParserService.parseUrl(sourceUrl);
       const prtiodItems = this.getItemsInPeriod(items, updateInterval);
-
+      return prtiodItems;
       for (const item of prtiodItems) {
         const targetContent = item[tagName];
         const plainTextContent = convert(targetContent, {
