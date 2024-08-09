@@ -5,6 +5,7 @@ import * as path from 'path';
 import { SummarizeService } from './common/langchainjs/summarize.setvice';
 import { RssParserService } from './common/rss-parser/rss-parser.service';
 import { RssConfigType } from './common/types';
+import { DateTimeService } from './common/utils/date-time.service';
 
 @Injectable()
 export class AppService {
@@ -12,6 +13,7 @@ export class AppService {
     private rssParserService: RssParserService,
     private readonly logger: Logger,
     private readonly summarizeService: SummarizeService,
+    private readonly dateTimeService: DateTimeService,
   ) {}
   getHello(): string {
     return 'Hello World!';
@@ -23,26 +25,38 @@ export class AppService {
     return JSON.parse(rawData) as RssConfigType[];
   }
 
+  getItemsInPeriod(items: any[], updateInterval: number = 7) {
+    return items.filter((item) => {
+      console.log('item', item);
+      const { pubDate } = item;
+      return this.dateTimeService.isDateInCurrentPeriod(
+        pubDate,
+        updateInterval,
+      );
+    });
+  }
+
   async main() {
     const rssConfig = await this.getRssConfig();
 
     for (const configItem of rssConfig) {
-      const { sourceUrl, tagName } = configItem;
+      const { sourceUrl, tagName, updateInterval } = configItem;
       const { items } = await this.rssParserService.parseUrl(sourceUrl);
-      const item = items[0];
-      // for (const item of items) {
-      const targetContent = item[tagName];
-      const plainTextContent = convert(targetContent, {
-        format: 'plain',
-        wordwrap: 120,
-        selectors: [
-          { selector: 'a', options: { ignoreHref: true } },
-          { selector: 'img', format: 'skip' },
-        ],
-      }).replace(/\s+/g, ' ');
-      const res = await this.summarizeService.summarize(plainTextContent);
-      this.logger.verbose('res', res);
-      // }
+      const prtiodItems = this.getItemsInPeriod(items, updateInterval);
+
+      for (const item of prtiodItems) {
+        const targetContent = item[tagName];
+        const plainTextContent = convert(targetContent, {
+          format: 'plain',
+          wordwrap: 120,
+          selectors: [
+            { selector: 'a', options: { ignoreHref: true } },
+            { selector: 'img', format: 'skip' },
+          ],
+        }).replace(/\s+/g, ' ');
+        const res = await this.summarizeService.summarize(plainTextContent);
+        this.logger.verbose('res', res);
+      }
     }
   }
 }
