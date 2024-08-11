@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { promises as fs } from 'fs';
-import { convert } from 'html-to-text';
 import * as path from 'path';
+import { KeepModeService } from './common/keep-mode/keep-mode.service';
 import { SummarizeService } from './common/langchainjs/summarize.setvice';
 import { RssParserService } from './common/rss-parser/rss-parser.service';
 import { RssConfigType } from './common/types';
@@ -14,6 +14,7 @@ export class AppService {
     private readonly logger: Logger,
     private readonly summarizeService: SummarizeService,
     private readonly dateTimeService: DateTimeService,
+    private readonly keepModeService: KeepModeService,
   ) {}
   getHello(): string {
     return 'Hello World!';
@@ -21,7 +22,6 @@ export class AppService {
   async getRssConfig() {
     const configPath = path.join(__dirname, '..', 'rss-config.json');
     const rawData = await fs.readFile(configPath, 'utf8');
-    console.log('rawData', rawData);
     return JSON.parse(rawData) as RssConfigType[];
   }
 
@@ -36,23 +36,26 @@ export class AppService {
     const rssConfig = await this.getRssConfig();
 
     for (const configItem of rssConfig) {
-      const { sourceUrl, tagName, updateInterval } = configItem;
+      const { sourceUrl, tagName, updateInterval, mode } = configItem;
+
       const { items } = await this.rssParserService.parseUrl(sourceUrl);
       const prtiodItems = this.getItemsInPeriod(items, updateInterval);
-      return prtiodItems;
-      for (const item of prtiodItems) {
-        const targetContent = item[tagName];
-        const plainTextContent = convert(targetContent, {
-          format: 'plain',
-          wordwrap: 120,
-          selectors: [
-            { selector: 'a', options: { ignoreHref: true } },
-            { selector: 'img', format: 'skip' },
-          ],
-        }).replace(/\s+/g, ' ');
-        const res = await this.summarizeService.summarize(plainTextContent);
-        this.logger.verbose('res', res);
+      // const targetContent = item[tagName];
+
+      if (mode === 'keep') {
+        return this.keepModeService.generateFeed(prtiodItems, tagName);
       }
+
+      // const plainTextContent = convert(targetContent, {
+      //   format: 'plain',
+      //   wordwrap: 120,
+      //   selectors: [
+      //     { selector: 'a', options: { ignoreHref: true } },
+      //     { selector: 'img', format: 'skip' },
+      //   ],
+      // }).replace(/\s+/g, ' ');
+      // const res = await this.summarizeService.summarize(plainTextContent);
+      // this.logger.verbose('res', res);
     }
   }
 }

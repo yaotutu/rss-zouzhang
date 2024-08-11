@@ -3,4 +3,5 @@ export type RssConfigType = {
   customName: string;
   updateInterval: number;
   tagName: string;
+  mode: 'mix' | 'summary' | 'keep';
 };
