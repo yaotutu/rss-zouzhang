@@ -5,3 +5,10 @@ export type RssConfigType = {
   tagName: string;
   mode: 'mix' | 'summary' | 'keep';
 };
+
+export type KeepModeItemtype = {
+  title: string;
+  link: string;
+  pubDate: string;
+  content: string;
+};
