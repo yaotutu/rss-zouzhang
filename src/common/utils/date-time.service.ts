@@ -1,10 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-
-interface PeriodInfo {
-  periodIndex: number;
-  startTimestamp: number;
-  endTimestamp: number;
-}
+import { PeriodInfoType } from '../types';
 
 @Injectable()
 export class DateTimeService {
@@ -19,7 +14,7 @@ export class DateTimeService {
     return parsedDate;
   }
 
-  calculatePeriodForDate(date: Date, periodInDays: number): PeriodInfo {
+  calculatePeriodForDate(date: Date, periodInDays: number): PeriodInfoType {
     const baseDate: Date = new Date('2024-01-01T00:00:00Z');
     const daysSinceBase: number = Math.floor(
       (date.getTime() - baseDate.getTime()) / (1000 * 60 * 60 * 24),
@@ -53,7 +48,7 @@ export class DateTimeService {
     }
 
     const currentDate: Date = new Date();
-    const currentPeriod: PeriodInfo = this.calculatePeriodForDate(
+    const currentPeriod: PeriodInfoType = this.calculatePeriodForDate(
       currentDate,
       periodInDays,
     );
@@ -61,16 +56,6 @@ export class DateTimeService {
     const previousPeriodStartTimestamp =
       currentPeriod.startTimestamp - periodInDays * 24 * 60 * 60 * 1000;
     const previousPeriodEndTimestamp = currentPeriod.startTimestamp;
-
-    this.logger.log(
-      `当前周期: ${new Date(currentPeriod.startTimestamp).toISOString()} - ${new Date(currentPeriod.endTimestamp).toISOString()}, ` +
-        `时间戳: ${currentPeriod.startTimestamp} - ${currentPeriod.endTimestamp}`,
-    );
-
-    this.logger.log(
-      `上一个周期: ${new Date(previousPeriodStartTimestamp).toISOString()} - ${new Date(previousPeriodEndTimestamp).toISOString()}, ` +
-        `时间戳: ${previousPeriodStartTimestamp} - ${previousPeriodEndTimestamp}`,
-    );
 
     if (checkPreviousPeriod) {
       return (
@@ -83,5 +68,27 @@ export class DateTimeService {
         date.getTime() < currentPeriod.endTimestamp
       );
     }
+  }
+
+  getPeriodInfoForDateString(
+    dateString: string,
+    periodInDays: number,
+  ): PeriodInfoType | null {
+    const date = this.parseDateString(dateString);
+
+    if (!date) {
+      this.logger.error(`日期无效: ${dateString}`);
+      return null;
+    }
+
+    const periodInfo = this.calculatePeriodForDate(date, periodInDays);
+
+    this.logger.log(
+      `日期 ${dateString} 所在周期: ${periodInfo.periodIndex}, ` +
+        `周期开始时间: ${new Date(periodInfo.startTimestamp).toISOString()}, ` +
+        `周期结束时间: ${new Date(periodInfo.endTimestamp).toISOString()}`,
+    );
+
+    return periodInfo;
   }
 }

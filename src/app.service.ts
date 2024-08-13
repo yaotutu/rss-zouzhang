@@ -36,14 +36,24 @@ export class AppService {
     const rssConfig = await this.getRssConfig();
 
     for (const configItem of rssConfig) {
-      const { sourceUrl, tagName, updateInterval, mode } = configItem;
+      const { sourceUrl, tagName, updateInterval, mode, customTitle } =
+        configItem;
 
-      const { items } = await this.rssParserService.parseUrl(sourceUrl);
+      const { items, feedInfo } =
+        await this.rssParserService.parseUrl(sourceUrl);
       const prtiodItems = this.getItemsInPeriod(items, updateInterval);
-      // const targetContent = item[tagName];
+      const period = this.dateTimeService.getPeriodInfoForDateString(
+        items[0].pubDate,
+        updateInterval,
+      );
 
       if (mode === 'keep') {
-        return this.keepModeService.generateFeed(prtiodItems, tagName);
+        return this.keepModeService.generateFeed(
+          prtiodItems,
+          tagName,
+          customTitle,
+          period,
+        );
       }
 
       // const plainTextContent = convert(targetContent, {
