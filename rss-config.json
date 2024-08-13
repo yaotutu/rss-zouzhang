@@ -1,7 +1,7 @@
 [
   {
     "sourceUrl": "https://rsshub.app/coolapk/hot",
-    "customName": "coolapk",
+    "customTitle": "酷安热榜",
     "updateInterval": 2,
     "_updateInterval": "多久更新一次,天为单位",
     "tagName": "description",
