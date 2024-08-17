@@ -1,34 +1,50 @@
 import { Injectable, Logger } from '@nestjs/common';
-import React from 'react'; // Import the 'React' module
-import ReactDOMServer from 'react-dom/server';
 import { KeepModeItemtype, PeriodInfoType } from '../types';
-import KeepMode from './KeepMode';
 
 @Injectable()
 export class KeepModeService {
   constructor(private readonly logger: Logger) {}
   generateFeed(
-    items: any[],
+    items: KeepModeItemtype[],
     tagName: string,
     title: string,
     period: PeriodInfoType,
-  ) {
-    const res: KeepModeItemtype[] = items.map((item) => {
-      return {
-        title: item.title,
-        link: item.link,
-        pubDate: item.pubDate,
-        content: item[tagName],
-      };
-    });
-    // this.logger.verbose('res', JSON.stringify(res));
-    const jsxElement = React.createElement(KeepMode, {
-      items: res,
-      title,
-      period,
-    });
-    const html = ReactDOMServer.renderToString(jsxElement);
-    const xml = `<?xml version="1.0" encoding="UTF-8"?>${html}`;
-    return xml;
+  ): string {
+    const { periodIndex } = period;
+    const rssItems = items
+      .map((item) => this.generateRssItem(item, periodIndex, tagName))
+      .join('\n');
+
+    return `<?xml version="1.0" encoding="UTF-8"?>
+      <rss version="2.0">
+        <channel>
+          <title>${title}</title>
+          <description>RSS 汇总</description>
+          ${rssItems}
+        </channel>
+      </rss>`;
+  }
+  generateRssItem(
+    item: KeepModeItemtype,
+    periodIndex: number,
+    tagName: string,
+  ): string {
+    const content = item[tagName as keyof KeepModeItemtype] as string;
+
+    return `
+      <item>
+        <title>${item.title} 第${periodIndex}期</title>
+        <description><![CDATA[
+          <div>
+            <div>文章标题：${item.title}</div>
+            <div>发布日期：08月08日</div>
+            ${content}
+            <div style="text-align: center; margin: 50px 0 0; color: #888;">
+              <strong>August 11, 2024</strong>
+            </div>
+          </div>
+        ]]></description>
+      </item>
+    `;
   }
 }
