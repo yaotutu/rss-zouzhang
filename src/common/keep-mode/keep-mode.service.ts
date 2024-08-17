@@ -1,5 +1,4 @@
 import { Injectable, Logger } from '@nestjs/common';
-import console from 'console';
 import { ArticleService } from '../prisma/article.service';
 import { KeepModeItemtype, PeriodInfoType } from '../types';
 
@@ -29,27 +28,17 @@ export class KeepModeService {
         </channel>
       </rss>`;
     } else {
-      const rssContent = this.generateRssItem(
-        prtiodItems,
-        periodIndex,
-        title,
-        tagName,
-      );
-      const res = await this.articleService.createArticle({
-        periodIndex,
-        rssContent,
-      });
-      console.log('res', res);
+      await this.generateRssItem(prtiodItems, periodIndex, title, tagName);
       return 'hello world';
     }
   }
 
-  private generateRssItem(
+  private async generateRssItem(
     prtiodItems: KeepModeItemtype[],
     periodIndex: number,
     title: string,
     tagName: string,
-  ): string {
+  ) {
     // 合并所有 prtiodItems 的内容
     const combinedContent = prtiodItems
       .map(
@@ -68,13 +57,16 @@ export class KeepModeService {
 
     // 将内容包裹在 CDATA 中
     const cdataWrappedContent = `<![CDATA[${combinedContent}]]>`;
-
-    // 生成单个合并后的 RSS <item>
-    return `
+    // 生成 rssContent
+    const rssContent = `
       <item>
         <title>${title} 第${periodIndex}期</title>
         <description>${cdataWrappedContent}</description>
       </item>
     `;
+    await this.articleService.createArticle({
+      periodIndex,
+      rssContent,
+    });
   }
 }
