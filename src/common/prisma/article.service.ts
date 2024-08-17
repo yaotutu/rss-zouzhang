@@ -46,4 +46,14 @@ export class ArticleService {
       where: { id },
     });
   }
+
+  async findByPeriodIndex(periodIndex: number): Promise<Article | null> {
+    // 使用 findUnique 方法根据 periodIndex 查询数据
+    const article = await this.prisma.article.findUnique({
+      where: { periodIndex },
+    });
+
+    // 判断数据库中是否存在该 periodIndex 对应的数据
+    return article;
+  }
 }
