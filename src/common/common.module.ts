@@ -3,6 +3,8 @@ import { Logger, Module } from '@nestjs/common';
 import { HttpClientService } from './http-client/http-client.service';
 import { KeepModeService } from './keep-mode/keep-mode.service';
 import { SummarizeService } from './langchainjs/summarize.setvice';
+import { ArticleService } from './prisma/article.service';
+import { PrismaService } from './prisma/prisma.service';
 import { RssParserService } from './rss-parser/rss-parser.service';
 import { DateTimeService } from './utils/date-time.service';
 import { WinstonLoggerService } from './winston/winston-logger.service';
@@ -16,6 +18,8 @@ import { WinstonLoggerService } from './winston/winston-logger.service';
     SummarizeService,
     DateTimeService,
     KeepModeService,
+    PrismaService,
+    ArticleService,
     {
       provide: Logger,
       useExisting: WinstonLoggerService,
@@ -28,6 +32,7 @@ import { WinstonLoggerService } from './winston/winston-logger.service';
     SummarizeService,
     DateTimeService,
     KeepModeService,
+    ArticleService,
   ],
 })
 export class CommonModule {}
