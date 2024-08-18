@@ -1,21 +1,22 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { promises as fs } from 'fs';
 import * as path from 'path';
-import { KeepModeService } from './common/keep-mode/keep-mode.service';
-import { SummarizeService } from './common/langchainjs/summarize.setvice';
+import { GenerateService } from './common/generate/generate.service';
 import { RssParserService } from './common/rss-parser/rss-parser.service';
 import { RssConfigType } from './common/types';
-import { DateTimeService } from './common/utils/date-time.service';
 
 @Injectable()
 export class AppService {
+  allRssConfig: RssConfigType[];
   constructor(
     private rssParserService: RssParserService,
     private readonly logger: Logger,
-    private readonly summarizeService: SummarizeService,
-    private readonly dateTimeService: DateTimeService,
-    private readonly keepModeService: KeepModeService,
-  ) {}
+    private readonly configService: ConfigService,
+    private readonly generateService: GenerateService,
+  ) {
+    this.allRssConfig = this.configService.get('rssConfig');
+  }
   getHello(): string {
     return 'Hello World!';
   }
@@ -25,37 +26,9 @@ export class AppService {
     return JSON.parse(rawData) as RssConfigType[];
   }
 
-  getItemsInPeriod(items: any[], updateInterval: number) {
-    return items.filter((item) => {
-      const { pubDate } = item;
-      return this.dateTimeService.checkDateInPeriod(pubDate, updateInterval);
-    });
-  }
-
-  async main() {
-    const rssConfig = await this.getRssConfig();
-
-    for (const configItem of rssConfig) {
-      const { sourceUrl, tagName, updateInterval, mode, customTitle } =
-        configItem;
-
-      const { items, feedInfo } =
-        await this.rssParserService.parseUrl(sourceUrl);
-      const prtiodItems = this.getItemsInPeriod(items, updateInterval);
-      const period = this.dateTimeService.getPeriodInfoForDateString(
-        items[0].pubDate,
-        updateInterval,
-      );
-
-      if (mode === 'keep') {
-        return this.keepModeService.generateFeed(
-          prtiodItems,
-          tagName,
-          customTitle,
-          period,
-        );
-      }
-
+  main() {
+    for (const configItem of this.allRssConfig) {
+      this.generateService.generateRssItem(configItem.customName);
       // const plainTextContent = convert(targetContent, {
       //   format: 'plain',
       //   wordwrap: 120,
@@ -68,4 +41,13 @@ export class AppService {
       // this.logger.verbose('res', res);
     }
   }
+  // async getFeed(rssName: string) {
+  //   const rssConfig = this.configService.get<RssConfigType[]>('rssConfig');
+  //   const itemConfig = rssConfig.find((item) => item.tagName === rssName);
+  //   const { sourceUrl, updateInterval, mode, customTitle, tagName } =
+  //     itemConfig;
+  //   const { items, feedInfo } = await this.rssParserService.parseUrl(sourceUrl);
+
+  //   return rssName;
+  // }
 }
