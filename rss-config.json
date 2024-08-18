@@ -7,6 +7,8 @@
     "tagName": "description",
     "_tagName": "文章内容的标签,也就是需要处理的内容标签,根据不同的rss网站略有区别,可以通过浏览器查看源码找到,通常为description,content:encoded,content等",
     "mode": "keep",
-    "_mode": "处理模式,有keep,mix,summarize,full三种,分别为混合模式,摘要模式,全文模式"
+    "_mode": "处理模式,有keep,mix,summarize,full三种,分别为混合模式,摘要模式,全文模式",
+    "customName": "coolapk-hot",
+    "_customName": "自定义的rss名称，用于生成rss订阅地址，可以随意填写，不要重复即可"
   }
 ]

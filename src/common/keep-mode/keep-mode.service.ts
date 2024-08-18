@@ -1,13 +1,23 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { ArticleService } from '../prisma/article.service';
-import { KeepModeItemtype, PeriodInfoType } from '../types';
+import { RssParserService } from '../rss-parser/rss-parser.service';
+import { KeepModeItemtype, PeriodInfoType, RssConfigType } from '../types';
+import { DateTimeService } from '../utils/date-time.service';
+import { title } from 'process';
 
 @Injectable()
 export class KeepModeService {
+  allRssConfig: RssConfigType[];
   constructor(
     private readonly logger: Logger,
     private readonly articleService: ArticleService,
-  ) {}
+    private readonly configService: ConfigService,
+    private rssParserService: RssParserService,
+    private readonly dateTimeService: DateTimeService,
+  ) {
+    this.allRssConfig = this.configService.get('rssConfig');
+  }
 
   async generateFeed(
     prtiodItems: KeepModeItemtype[],
@@ -17,7 +27,7 @@ export class KeepModeService {
   ): Promise<string> {
     const { periodIndex } = period;
     const periodIndexData =
-      await this.articleService.findByPeriodIndex(periodIndex);
+      await this.articleService.findByCustomNameAndPeriodIndex('', periodIndex);
     if (periodIndexData) {
       return `<?xml version="1.0" encoding="UTF-8"?>
       <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
@@ -33,10 +43,10 @@ export class KeepModeService {
     }
   }
 
-  private async generateRssItem(
+  async generateRssItem(
     prtiodItems: KeepModeItemtype[],
     periodIndex: number,
-    title: string,
+    customName: string,
     tagName: string,
   ) {
     // 合并所有 prtiodItems 的内容
@@ -67,6 +77,15 @@ export class KeepModeService {
     await this.articleService.createArticle({
       periodIndex,
       rssContent,
+      customName,
     });
+  }
+
+  // 根据 customName 获取 rssContent
+  async getRssContentByCustomName(customName: string) {
+    const rssContent = (
+      await this.articleService.findByCustomName(customName)
+    ).slice(0, 10);
+    return rssContent;
   }
 }

@@ -47,13 +47,32 @@ export class ArticleService {
     });
   }
 
-  async findByPeriodIndex(periodIndex: number): Promise<Article | null> {
-    // 使用 findUnique 方法根据 periodIndex 查询数据
-    const article = await this.prisma.article.findUnique({
-      where: { periodIndex },
+  async findByCustomNameAndPeriodIndex(
+    customName: string,
+    periodIndex: number,
+  ): Promise<Article | null> {
+    // 使用 findFirst 方法根据 customName 和 periodIndex 查询数据
+    const article = await this.prisma.article.findFirst({
+      where: {
+        customName,
+        periodIndex,
+      },
     });
 
-    // 判断数据库中是否存在该 periodIndex 对应的数据
+    // 判断数据库中是否存在该 customName 和 periodIndex 对应的数据
+    return article;
+  }
+
+  async findByCustomName(customName: string): Promise<Article[] | null> {
+    // 使用 findUnique 方法根据 customName 查询数据
+    const article = await this.prisma.article.findMany({
+      where: { customName },
+      orderBy: {
+        periodIndex: 'desc', // 'asc' 表示升序，'desc' 表示降序
+      },
+    });
+
+    // 判断数据库中是否存在该 customName 对应的数据
     return article;
   }
 }
