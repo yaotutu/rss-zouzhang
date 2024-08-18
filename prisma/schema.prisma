@@ -12,8 +12,10 @@ datasource db {
 
 model Article {
   id          Int      @id @default(autoincrement())
+  sourceUrl   String?
   rssContent  String
-  periodIndex Int      @unique
+  customName  String
+  periodIndex Int
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
