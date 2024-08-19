@@ -2,7 +2,6 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { title } from 'process';
 import { ArticleService } from '../prisma/article.service';
-import { RssParserService } from '../rss-parser/rss-parser.service';
 import { KeepModeItemtype, RssConfigType } from '../types';
 import { DateTimeService } from '../utils/date-time.service';
 
@@ -13,7 +12,6 @@ export class KeepModeService {
     private readonly logger: Logger,
     private readonly articleService: ArticleService,
     private readonly configService: ConfigService,
-    private rssParserService: RssParserService,
     private readonly dateTimeService: DateTimeService,
   ) {
     this.allRssConfig = this.configService.get('rssConfig');
@@ -39,21 +37,25 @@ export class KeepModeService {
     periodIndex: number,
     customName: string,
     tagName: string,
+    sourceUrl: string,
   ) {
     // 合并所有 prtiodItems 的内容
     const combinedContent = prtiodItems
-      .map(
-        (item) => `
+      .map((item) => {
+        const { pubDate } = item;
+        const dateString = this.dateTimeService.formatDateToString(pubDate);
+        return `
         <div>
+          <div style="text-align: center; margin: 50px 0 0; color: #888;">
+            <strong>${dateString}</strong>
+          </div>
           <div>文章标题：${item.title}</div>
+          <div>原文链接：<a href="${item.link}">查看原文</a></div>
           <div>发布日期：${item.pubDate || '未知发布日期'}</div>
           ${item[tagName as keyof KeepModeItemtype] || ''}
-          <div style="text-align: center; margin: 50px 0 0; color: #888;">
-            <strong>August 11, 2024</strong>
-          </div>
         </div>
-      `,
-      )
+      `;
+      })
       .join('');
 
     // 将内容包裹在 CDATA 中
@@ -61,7 +63,7 @@ export class KeepModeService {
     // 生成 rssContent
     const rssContent = `
       <item>
-        <title>${title} 第${periodIndex}期</title>
+        <title> 第${periodIndex}期</title>
         <description>${cdataWrappedContent}</description>
       </item>
     `;
@@ -69,6 +71,7 @@ export class KeepModeService {
       periodIndex,
       rssContent,
       customName,
+      sourceUrl,
     });
   }
 
