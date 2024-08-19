@@ -1,10 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { title } from 'process';
 import { ArticleService } from '../prisma/article.service';
 import { RssParserService } from '../rss-parser/rss-parser.service';
-import { KeepModeItemtype, PeriodInfoType, RssConfigType } from '../types';
+import { KeepModeItemtype, RssConfigType } from '../types';
 import { DateTimeService } from '../utils/date-time.service';
-import { title } from 'process';
 
 @Injectable()
 export class KeepModeService {
@@ -19,28 +19,19 @@ export class KeepModeService {
     this.allRssConfig = this.configService.get('rssConfig');
   }
 
-  async generateFeed(
-    prtiodItems: KeepModeItemtype[],
-    tagName: string,
-    title: string,
-    period: PeriodInfoType,
-  ): Promise<string> {
-    const { periodIndex } = period;
-    const periodIndexData =
-      await this.articleService.findByCustomNameAndPeriodIndex('', periodIndex);
-    if (periodIndexData) {
-      return `<?xml version="1.0" encoding="UTF-8"?>
+  async generateFeed(customName: string): Promise<string> {
+    const rssItemContent = await this.getRssContentByCustomName(customName);
+    const rssContentXML = rssItemContent
+      .map((item) => item.rssContent)
+      .join('');
+    return `<?xml version="1.0" encoding="UTF-8"?>
       <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
         <channel>
           <title>${title}</title>
           <description>RSS 汇总</description>
-          ${periodIndexData.rssContent}
+          ${rssContentXML}
         </channel>
       </rss>`;
-    } else {
-      await this.generateRssItem(prtiodItems, periodIndex, title, tagName);
-      return 'hello world';
-    }
   }
 
   async generateRssItem(

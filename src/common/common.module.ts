@@ -1,6 +1,7 @@
 import { HttpModule } from '@nestjs/axios';
 import { Logger, Module } from '@nestjs/common';
 import { GenerateService } from './generate/generate.service';
+import { GetFeedService } from './get-feed/get-feed.service';
 import { HttpClientService } from './http-client/http-client.service';
 import { KeepModeService } from './keep-mode/keep-mode.service';
 import { SummarizeService } from './langchainjs/summarize.setvice';
@@ -22,6 +23,7 @@ import { WinstonLoggerService } from './winston/winston-logger.service';
     PrismaService,
     ArticleService,
     GenerateService,
+    GetFeedService,
     {
       provide: Logger,
       useExisting: WinstonLoggerService,
@@ -36,6 +38,7 @@ import { WinstonLoggerService } from './winston/winston-logger.service';
     KeepModeService,
     ArticleService,
     GenerateService,
+    GetFeedService,
   ],
 })
 export class CommonModule {}
