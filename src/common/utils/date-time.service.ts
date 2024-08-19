@@ -5,6 +5,12 @@ import { PeriodInfoType } from '../types';
 export class DateTimeService {
   private readonly logger = new Logger(DateTimeService.name);
 
+  /**
+   * Parses a date string and returns a Date object.
+   *
+   * @param dateString - The date string to parse.
+   * @returns The parsed Date object, or null if the date string is invalid.
+   */
   parseDateString(dateString: string): Date | null {
     const parsedDate: Date = new Date(dateString);
     if (isNaN(parsedDate.getTime())) {
@@ -14,6 +20,52 @@ export class DateTimeService {
     return parsedDate;
   }
 
+  /**
+   * Formats a date string into a specified format.
+   *
+   * @param dateString - The date string to format.
+   * @param format - The format string, supports 'yymmdd', 'mmdd', 'yy', 'mm', 'dd'.
+   * @returns The formatted date string, or null if the date string is invalid or the format is unsupported.
+   */
+  formatDateToString(
+    dateString: string,
+    format: string = 'yymmdd',
+  ): string | null {
+    const date: Date | null = this.parseDateString(dateString);
+
+    if (!date) {
+      this.logger.error(`无法格式化日期: ${dateString}`);
+      return null;
+    }
+
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // 月份从0开始，因此需要加1
+    const day = date.getDate();
+
+    switch (format) {
+      case 'yymmdd':
+        return `${year}年${month}月${day}日`;
+      case 'mmdd':
+        return `${month}月${day}日`;
+      case 'yy':
+        return `${year}年`;
+      case 'mm':
+        return `${month}月`;
+      case 'dd':
+        return `${day}日`;
+      default:
+        this.logger.error(`不支持的格式: ${format}`);
+        return null;
+    }
+  }
+
+  /**
+   * Calculates the period information for a given date.
+   *
+   * @param date - The date for which to calculate the period.
+   * @param periodInDays - The length of each period in days.
+   * @returns The period information including the period index, start timestamp, and end timestamp.
+   */
   calculatePeriodForDate(date: Date, periodInDays: number): PeriodInfoType {
     const baseDate: Date = new Date('2024-01-01T00:00:00Z');
     const daysSinceBase: number = Math.floor(
@@ -32,6 +84,14 @@ export class DateTimeService {
     };
   }
 
+  /**
+   * Checks if a given date falls within a specified period.
+   *
+   * @param dateInput - The date to check. It can be either a string or a Date object.
+   * @param periodInDays - The duration of the period in days.
+   * @param checkPreviousPeriod - Optional. Specifies whether to check the previous period. Default is true.
+   * @returns A boolean indicating whether the date falls within the specified period.
+   */
   checkDateInPeriod(
     dateInput: string | Date,
     periodInDays: number,
@@ -70,6 +130,13 @@ export class DateTimeService {
     }
   }
 
+  /**
+   * Retrieves the period information for a given date string.
+   *
+   * @param dateString - The date string to retrieve the period information for.
+   * @param periodInDays - The number of days in a period.
+   * @returns The period information for the given date string, or null if the date is invalid.
+   */
   getPeriodInfoForDateString(
     dateString: string,
     periodInDays: number,

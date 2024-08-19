@@ -52,6 +52,7 @@ export class GenerateService {
           periodIndex,
           customName,
           tagName,
+          sourceUrl,
         );
       }
     }
