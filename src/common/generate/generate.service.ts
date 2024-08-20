@@ -8,6 +8,7 @@ import { DateTimeService } from '../utils/date-time.service';
 
 @Injectable()
 export class GenerateService {
+  // BUG  周期计算有问题，需要修复，为何会同时生成115期与116期
   allRssConfig: RssConfigType[];
 
   constructor(
