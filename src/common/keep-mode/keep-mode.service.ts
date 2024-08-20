@@ -45,15 +45,16 @@ export class KeepModeService {
         const { pubDate } = item;
         const dateString = this.dateTimeService.formatDateToString(pubDate);
         return `
-        <div>
+        <p>
           <div style="text-align: center; margin: 50px 0 0; color: #888;">
             <strong>${dateString}</strong>
           </div>
-          <div>文章标题：${item.title}</div>
-          <div>原文链接：<a href="${item.link}">查看原文</a></div>
-          <div>发布日期：${item.pubDate || '未知发布日期'}</div>
+          <h2><a href="${item.link}" rel="nofollow noopener" target="_blank">${item.title}</a></h2>
+          <strong>原文链接:</strong> <a href="${item.link}">查看原文</a> <br />
+          <strong>发布日期:</strong> ${dateString || '未知发布日期'} <br />
           ${item[tagName as keyof KeepModeItemtype] || ''}
-        </div>
+        </p>
+        <hr />
       `;
       })
       .join('');
