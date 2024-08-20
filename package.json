@@ -29,6 +29,7 @@
     "@nestjs/config": "^3.2.3",
     "@nestjs/core": "^10.4.1",
     "@nestjs/platform-express": "^10.4.1",
+    "@nestjs/schedule": "^4.1.0",
     "@prisma/client": "5.18.0",
     "axios": "^1.7.4",
     "html-to-text": "^9.0.5",
