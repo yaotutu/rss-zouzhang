@@ -29,6 +29,7 @@ export class GenerateService {
     });
   }
   async generateRssItem(customName: string) {
+    this.logger.verbose(`开始生成 ${customName} 的文章`, 'GenerateService');
     const rssConfig = this.allRssConfig.find(
       (item) => item.customName === customName,
     );
@@ -55,6 +56,11 @@ export class GenerateService {
           sourceUrl,
         );
       }
+    } else {
+      this.logger.verbose(
+        `${customName} ${periodIndex} 已经生成过了`,
+        'GenerateService',
+      );
     }
   }
 }

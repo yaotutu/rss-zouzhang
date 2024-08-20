@@ -8,6 +8,7 @@ import { SummarizeService } from './langchainjs/summarize.setvice';
 import { ArticleService } from './prisma/article.service';
 import { PrismaService } from './prisma/prisma.service';
 import { RssParserService } from './rss-parser/rss-parser.service';
+import { TaskService } from './task/task.service';
 import { DateTimeService } from './utils/date-time.service';
 import { WinstonLoggerService } from './winston/winston-logger.service';
 
@@ -28,6 +29,7 @@ import { WinstonLoggerService } from './winston/winston-logger.service';
       provide: Logger,
       useExisting: WinstonLoggerService,
     },
+    TaskService,
   ],
   exports: [
     RssParserService,

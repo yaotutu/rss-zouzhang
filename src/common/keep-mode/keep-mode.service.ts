@@ -73,6 +73,10 @@ export class KeepModeService {
       customName,
       sourceUrl,
     });
+    this.logger.verbose(
+      `生成 ${customName} 第${periodIndex}期`,
+      'KeepModeService',
+    );
   }
 
   // 根据 customName 获取 rssContent
