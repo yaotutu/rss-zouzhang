@@ -37,10 +37,7 @@ export class GenerateService {
     const { sourceUrl, updateInterval, mode, customTitle, tagName } = rssConfig;
 
     const { items, feedInfo } = await this.rssParserService.parseUrl(sourceUrl);
-    const period = this.dateTimeService.getPeriodInfoForDateString(
-      items[0].pubDate,
-      updateInterval,
-    );
+    const period = this.dateTimeService.getCurrentPeriodInfo(updateInterval);
     const { periodIndex } = period;
     const periodIndexData =
       await this.articleService.findByCustomNameAndPeriodIndex(
@@ -48,9 +45,14 @@ export class GenerateService {
         periodIndex,
       );
     if (!periodIndexData) {
+      const perioditems = this.getItemsInPeriod(items, updateInterval);
+      this.logger.debug(
+        `周期内的文章为 ${JSON.stringify(perioditems)}，当前周期为 ${periodIndex}`,
+        'GenerateService',
+      );
       if (mode === 'keep') {
         await this.keepModeService.generateRssItem(
-          this.getItemsInPeriod(items, updateInterval),
+          perioditems,
           periodIndex,
           customName,
           tagName,

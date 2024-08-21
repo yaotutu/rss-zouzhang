@@ -158,4 +158,18 @@ export class DateTimeService {
 
     return periodInfo;
   }
+
+  getCurrentPeriodInfo(periodInDays: number): PeriodInfoType | null {
+    const currentDate = new Date();
+
+    const periodInfo = this.calculatePeriodForDate(currentDate, periodInDays);
+
+    this.logger.log(
+      `当前时间 ${currentDate.toISOString()} 所在周期: ${periodInfo.periodIndex}, ` +
+        `周期开始时间: ${new Date(periodInfo.startTimestamp).toISOString()}, ` +
+        `周期结束时间: ${new Date(periodInfo.endTimestamp).toISOString()}`,
+    );
+
+    return periodInfo;
+  }
 }
