@@ -8,7 +8,7 @@ export class WinstonLoggerService implements LoggerService {
   private readonly logger: winston.Logger;
   constructor() {
     this.logger = winston.createLogger({
-      level: 'debug', // 最低记录级别为 debug，以确保所有级别的日志都被处理
+      level: 'silly', // 最低记录级别为 debug，以确保所有级别的日志都被处理
       format: winston.format.combine(
         winston.format.timestamp({
           format: 'YYYY/MM/DD HH:mm:ss',
@@ -20,10 +20,10 @@ export class WinstonLoggerService implements LoggerService {
       ),
       transports: [
         new winston.transports.Console({
-          level: 'debug', // 打印所有级别的日志
+          level: 'silly', // 打印所有级别的日志
         }),
         new DailyRotateFile({
-          level: 'info', // 仅将 info 及以上级别的日志写入文件
+          level: 'silly',
           filename: 'logs/%DATE%.log',
           datePattern: 'YYYY-MM-DD',
           zippedArchive: true,
