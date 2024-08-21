@@ -1,6 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { title } from 'process';
 import { ArticleService } from '../prisma/article.service';
 import { KeepModeItemtype, RssConfigType } from '../types';
 import { DateTimeService } from '../utils/date-time.service';
@@ -25,7 +24,7 @@ export class KeepModeService {
     return `<?xml version="1.0" encoding="UTF-8"?>
       <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
         <channel>
-          <title>${title}</title>
+          <title>${customName}</title>
           <description>RSS 汇总</description>
           ${rssContentXML}
         </channel>
