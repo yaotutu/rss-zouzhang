@@ -3,6 +3,7 @@ export type RssConfigType = {
   customTitle: string;
   updateInterval: number;
   tagName: string;
+  dateTag: string;
   customName: string;
   mode: 'mix' | 'summary' | 'keep';
 };

@@ -21,6 +21,7 @@ export class KeepModeService {
     const rssContentXML = rssItemContent
       .map((item) => item.rssContent)
       .join('');
+    // TODO 增加link标签
     return `<?xml version="1.0" encoding="UTF-8"?>
       <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
         <channel>
@@ -35,14 +36,17 @@ export class KeepModeService {
     prtiodItems: KeepModeItemtype[],
     periodIndex: number,
     customName: string,
-    tagName: string,
-    sourceUrl: string,
   ) {
+    const { tagName, sourceUrl, dateTag, updateInterval } =
+      this.allRssConfig.find((item) => item.customName === customName);
+    const periodInfo =
+      this.dateTimeService.getCurrentPeriodInfo(updateInterval);
+    const { startTimestamp, endTimestamp } = periodInfo;
     // 合并所有 prtiodItems 的内容
     const combinedContent = prtiodItems
       .map((item) => {
-        const { pubDate } = item;
-        const dateString = this.dateTimeService.formatDateToString(pubDate);
+        const itemDate = item[dateTag];
+        const dateString = this.dateTimeService.formatDateToString(itemDate);
         return `
         <p>
           <div style="text-align: center; margin: 50px 0 0; color: #888;">
@@ -64,6 +68,7 @@ export class KeepModeService {
     const rssContent = `
       <item>
         <title> 第${periodIndex}期</title>
+        <pubDate>${new Date(endTimestamp).toUTCString()}</pubDate>
         <description>${cdataWrappedContent}</description>
       </item>
     `;
